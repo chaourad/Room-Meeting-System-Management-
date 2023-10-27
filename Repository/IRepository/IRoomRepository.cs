@@ -14,7 +14,7 @@ namespace GestiondesSalles.Repository.IRepository
         IEnumerable<ResponseRoomDto> SearchRoomByFloor(Guid floodId);
 
         IEnumerable<ResponseRoomDto> GetFreeRoomsByFloor(Guid floorId);
-
+        IEnumerable<ResponseRoomDto> GetFreeRooms();
 
 
     }
