@@ -9,5 +9,6 @@ namespace GestiondesSalles.Repository.IRepository
         IEnumerable<ResponseRoomDto> GetAll ();
         ResponseRoomDto GetRoomById( Guid id);
         void Delete( Guid id);
+        ResponseRoomDto Update(Guid id , UpdateRoomDto roomDto);
     }
 }

@@ -28,7 +28,10 @@ namespace GestiondesSalles.Controllers
             _roomRepository.Delete(id);
             return Ok();
         }
+    [HttpPut("Update/{id:Guid}")]
+    public ActionResult<ResponseRoomDto> Update(Guid id, UpdateRoomDto updateRoomDto)=> Ok(_roomRepository.Update(id,updateRoomDto));
 
+        
         
     }
 }

@@ -16,19 +16,20 @@ namespace GestiondesSalles.Repository
         private readonly AppDbContext _context;
         private readonly IMapper _mapper;
 
-        public RoomRepository (AppDbContext context ,IMapper mapper ){
+        public RoomRepository(AppDbContext context, IMapper mapper)
+        {
             _context = context;
             _mapper = mapper;
         }
-        public  Room Create(CreateRoomDto createRoom)
+        public Room Create(CreateRoomDto createRoom)
         {
-            Floor? floor =  _context.Floor
+            Floor? floor = _context.Floor
             .Where(f => f.Id == createRoom.FloorId)
             .FirstOrDefault();
-            if(floor is null)
-                throw new FloorNotFoundException(ErrorMessages.FLoorNotFound , ((int)HttpStatusCode.NotFound));
+            if (floor is null)
+                throw new FloorNotFoundException(ErrorMessages.FLoorNotFound, ((int)HttpStatusCode.NotFound));
 
-            var newRoom = _mapper.Map<CreateRoomDto,Room>(createRoom);
+            var newRoom = _mapper.Map<CreateRoomDto, Room>(createRoom);
             _context.Rooms.Add(newRoom);
             _context.SaveChanges();
             return newRoom;
@@ -37,28 +38,50 @@ namespace GestiondesSalles.Repository
         public ResponseRoomDto GetRoomById(Guid id)
         {
             Room? room = _context.Rooms.Where(r => r.Id == id).FirstOrDefault();
-            if(room is null)
-                throw new RoomNotFoundException(ErrorMessages.RoomNotFound ,(int) HttpStatusCode.NotFound);
-            
-            return _mapper.Map<Room,ResponseRoomDto>(room);
+            if (room is null)
+                throw new RoomNotFoundException(ErrorMessages.RoomNotFound, (int)HttpStatusCode.NotFound);
+
+            return _mapper.Map<Room, ResponseRoomDto>(room);
 
         }
 
         public IEnumerable<ResponseRoomDto> GetAll()
          => _context.Rooms
          .Include(r => r.Floor)
-         .Select(room => _mapper.Map<Room,ResponseRoomDto>(room));
+         .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
 
         public void Delete(Guid id)
         {
-           
-           Room? room= _context.Rooms.Find(id);
-            if(room is null)
-                throw new RoomNotFoundException(ErrorMessages.RoomNotFound ,(int) HttpStatusCode.NotFound);
-           _context.Rooms.Remove(room);
-           int res = _context.SaveChanges();
-           if(res == 0)
-                throw new RoomDeleteException(ErrorMessages.RoomDeleteException ,(int) HttpStatusCode.BadRequest);
+
+            Room? room = _context.Rooms.Find(id);
+            if (room is null)
+                throw new RoomNotFoundException(ErrorMessages.RoomNotFound, (int)HttpStatusCode.NotFound);
+            _context.Rooms.Remove(room);
+            int res = _context.SaveChanges();
+            if (res == 0)
+                throw new RoomDeleteException(ErrorMessages.RoomDeleteException, (int)HttpStatusCode.BadRequest);
+        }
+
+        public ResponseRoomDto Update(Guid id, UpdateRoomDto roomDto)
+        {
+
+            Room? room = _context.Rooms.Find(id);
+            if (room is null)
+                throw new RoomNotFoundException(ErrorMessages.RoomNotFound, (int)HttpStatusCode.NotFound);
+
+            if (roomDto is null)
+                throw new RoomNotFoundException(ErrorMessages.RommDtoNotFound, (int)HttpStatusCode.NotFound);
+            room.Maxpeople = roomDto.Maxpeople;
+            room.Surface = roomDto.Surface;
+            room.FloorId = roomDto.FloorId;
+            room.Image = roomDto.Image;
+            room.Nom = roomDto.Nom;
+
+            _context.Rooms.Update(room);
+            _context.SaveChanges();
+            return _mapper.Map<Room, ResponseRoomDto>(room);
+
+        
         }
     }
 }
