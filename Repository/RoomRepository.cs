@@ -91,6 +91,14 @@ namespace GestiondesSalles.Repository
                 .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
         }
 
+
+        public IEnumerable<ResponseRoomDto> GetFreeRooms()
+        {
+          return  _context.Rooms
+          .Where(r => r.Status == RoomStatus.FREE.ToString())
+          .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
+             
+
         public IEnumerable<ResponseRoomDto> GetFreeRoomsByFloor(Guid floorId)
         {
             Floor? floor = _context.Floor.Find(floorId);
@@ -100,6 +108,7 @@ namespace GestiondesSalles.Repository
             return _context.Rooms
             .Where(room => room.FloorId == floorId && room.Status == RoomStatus.FREE.ToString())
             .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
+
         }
     }
 }
