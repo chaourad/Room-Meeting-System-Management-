@@ -6,6 +6,7 @@ using GestiondesSalles.ExceptionHandlerMidls.FloorException;
 using GestiondesSalles.ExceptionHandlerMidls.RoomException;
 using GestiondesSalles.modals;
 using GestiondesSalles.Repository.IRepository;
+using GestiondesSalles.Status;
 using GestiondesSalles.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -90,6 +91,12 @@ namespace GestiondesSalles.Repository
                 .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
         }
 
-
+        public IEnumerable<ResponseRoomDto> GetFreeRooms()
+        {
+          return  _context.Rooms
+          .Where(r => r.Status == RoomStatus.FREE.ToString())
+          .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
+             
+        }
     }
 }
