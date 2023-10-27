@@ -76,7 +76,6 @@ namespace GestiondesSalles.Repository
             room.FloorId = roomDto.FloorId;
             room.Image = roomDto.Image;
             room.Nom = roomDto.Nom;
-
             _context.Rooms.Update(room);
             _context.SaveChanges();
             return _mapper.Map<Room, ResponseRoomDto>(room);
@@ -91,15 +90,6 @@ namespace GestiondesSalles.Repository
                 .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
         }
 
-        public void Test()
-        {
-            Console.WriteLine("Test");
-        }
 
-        public void Imane()
-        {
-                        Console.WriteLine("Test");
-
-        }
     }
 }
