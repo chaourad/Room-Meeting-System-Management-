@@ -12,5 +12,7 @@ namespace GestiondesSalles.Repository.IRepository
         ResponseRoomDto Update(Guid id, UpdateRoomDto roomDto);
 
         IEnumerable<ResponseRoomDto> SearchRoomByFloor(Guid floodId);
+
+        void Test();
     }
 }
