@@ -42,5 +42,7 @@ namespace GestiondesSalles.Controllers
         public ActionResult<IEnumerable<ResponseRoomDto>> GetFreeRoomsByFloor(Guid floorId)
         => Ok(_roomRepository.GetFreeRoomsByFloor(floorId));
 
+        [HttpGet("GetFreeRooms")]
+        public ActionResult<IEnumerable<ResponseRoomDto>> GetFreeRooms() =>Ok(_roomRepository.GetFreeRooms());
     }
 }
