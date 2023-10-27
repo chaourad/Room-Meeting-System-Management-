@@ -35,8 +35,11 @@ namespace GestiondesSalles.Controllers
 
         [HttpGet("SearchRoomByFloor/{floorId:Guid}")]
         public ActionResult<IEnumerable<ResponseRoomDto>> SearchRoomByFloor(Guid floorId)
-        // TTTT
-         => Ok(_roomRepository.SearchRoomByFloor(floorId));
+        {
+            return Ok(_roomRepository.SearchRoomByFloor(floorId));
+        }
+
+
 
 
     }
