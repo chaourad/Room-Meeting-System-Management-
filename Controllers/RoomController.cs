@@ -44,5 +44,9 @@ namespace GestiondesSalles.Controllers
 
         [HttpGet("GetFreeRooms")]
         public ActionResult<IEnumerable<ResponseRoomDto>> GetFreeRooms() =>Ok(_roomRepository.GetFreeRooms());
+
+        void Imane(){
+            Console.WriteLine("imane");
+        }
     }
 }
