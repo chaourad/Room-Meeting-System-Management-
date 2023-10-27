@@ -41,6 +41,13 @@ namespace GestiondesSalles.Controllers
         => Ok(_roomRepository.GetFreeRoomsByFloor(floorId));
 
         [HttpGet("GetFreeRooms")]
+
+        public ActionResult<IEnumerable<ResponseRoomDto>> GetFreeRooms() =>Ok(_roomRepository.GetFreeRooms());
+
+        void Imane(){
+            Console.WriteLine("imane");
+            }
+
         public ActionResult<IEnumerable<ResponseRoomDto>> GetFreeRooms()
          => Ok(_roomRepository.GetFreeRooms());
 
@@ -48,6 +55,7 @@ namespace GestiondesSalles.Controllers
         void Othmane()
         {
             Console.WriteLine("Othmane");
+
         }
     }
 }
