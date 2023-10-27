@@ -91,12 +91,24 @@ namespace GestiondesSalles.Repository
                 .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
         }
 
+
         public IEnumerable<ResponseRoomDto> GetFreeRooms()
         {
           return  _context.Rooms
           .Where(r => r.Status == RoomStatus.FREE.ToString())
           .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
              
+
+        public IEnumerable<ResponseRoomDto> GetFreeRoomsByFloor(Guid floorId)
+        {
+            Floor? floor = _context.Floor.Find(floorId);
+            if (floor is null)
+                throw new FloorNotFoundException(ErrorMessages.FLoorNotFound, (int)HttpStatusCode.NotFound);
+
+            return _context.Rooms
+            .Where(room => room.FloorId == floorId && room.Status == RoomStatus.FREE.ToString())
+            .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
+
         }
     }
 }
