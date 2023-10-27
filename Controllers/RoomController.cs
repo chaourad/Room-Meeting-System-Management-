@@ -10,8 +10,9 @@ namespace GestiondesSalles.Controllers
     public class RoomController : ControllerBase
     {
         private readonly IRoomRepository _roomRepository;
-        public RoomController(IRoomRepository roomRepository) {
-           _roomRepository = roomRepository;
+        public RoomController(IRoomRepository roomRepository)
+        {
+            _roomRepository = roomRepository;
         }
 
 
@@ -24,14 +25,18 @@ namespace GestiondesSalles.Controllers
         => Ok(_roomRepository.GetAll());
 
         [HttpDelete("Delete/{id:Guid}")]
-        public ActionResult Delete(Guid id){
+        public ActionResult Delete(Guid id)
+        {
             _roomRepository.Delete(id);
             return Ok();
         }
-    [HttpPut("Update/{id:Guid}")]
-    public ActionResult<ResponseRoomDto> Update(Guid id, UpdateRoomDto updateRoomDto)=> Ok(_roomRepository.Update(id,updateRoomDto));
+        [HttpPut("Update/{id:Guid}")]
+        public ActionResult<ResponseRoomDto> Update(Guid id, UpdateRoomDto updateRoomDto) => Ok(_roomRepository.Update(id, updateRoomDto));
 
-        
-        
+        [HttpGet("SearchRoomByFloor/{floorId:Guid}")]
+        public ActionResult<IEnumerable<ResponseRoomDto>> SearchRoomByFloor(Guid floorId)
+         => Ok(_roomRepository.SearchRoomByFloor(floorId));
+
+
     }
 }

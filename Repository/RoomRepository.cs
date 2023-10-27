@@ -81,7 +81,14 @@ namespace GestiondesSalles.Repository
             _context.SaveChanges();
             return _mapper.Map<Room, ResponseRoomDto>(room);
 
-        
+
+        }
+
+        public IEnumerable<ResponseRoomDto> SearchRoomByFloor(Guid floodId)
+        {
+            return
+                _context.Rooms.Where(room => room.FloorId == floodId)
+                .Select(room => _mapper.Map<Room, ResponseRoomDto>(room));
         }
     }
 }
