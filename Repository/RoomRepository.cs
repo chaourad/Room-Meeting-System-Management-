@@ -95,5 +95,11 @@ namespace GestiondesSalles.Repository
         {
             Console.WriteLine("Test");
         }
+
+        public void Imane()
+        {
+                        Console.WriteLine("Test");
+
+        }
     }
 }

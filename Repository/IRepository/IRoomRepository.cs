@@ -14,5 +14,6 @@ namespace GestiondesSalles.Repository.IRepository
         IEnumerable<ResponseRoomDto> SearchRoomByFloor(Guid floodId);
 
         void Test();
+        void Imane();
     }
 }
