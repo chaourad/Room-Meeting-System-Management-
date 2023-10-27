@@ -11,6 +11,7 @@ namespace GestiondesSalles.MapperProfile
             CreateMap<CreateRoomDto,Room>();
             CreateMap<CreateFloorDto,Floor>();
             CreateMap<Room,ResponseRoomDto>();
+            
         }
     }
 }
