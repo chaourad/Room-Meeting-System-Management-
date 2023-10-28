@@ -1,4 +1,6 @@
 using GestiondesSalles.Dto.EquipementDto;
+using GestiondesSalles.Dto.RoomDto;
+using GestiondesSalles.Filter;
 using GestiondesSalles.modals;
 
 namespace GestiondesSalles.IRepository
@@ -12,7 +14,5 @@ namespace GestiondesSalles.IRepository
       ResponseEquipementDto Update(UpdateEquipementDto updateEquipementDto, Guid id);
 
       IEnumerable<ResponseEquipementDto> GetEquipementByRommId(Guid roomId);
-      
-
     }
 }

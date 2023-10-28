@@ -1,5 +1,6 @@
 using GestiondesSalles.Dto.EquipementDto;
 using GestiondesSalles.Dto.RoomDto;
+using GestiondesSalles.Filter;
 using GestiondesSalles.modals;
 
 namespace GestiondesSalles.Repository.IRepository
@@ -14,5 +15,7 @@ namespace GestiondesSalles.Repository.IRepository
         IEnumerable<ResponseRoomDto> SearchRoomByFloor(Guid floodId);
         IEnumerable<ResponseRoomDto> GetFreeRoomsByFloor(Guid floorId);
         IEnumerable<ResponseRoomDto> GetFreeRooms();
+//        IEnumerable<Room> FilterEquipemnt(FilterRoom filter);
+
     }
 }
