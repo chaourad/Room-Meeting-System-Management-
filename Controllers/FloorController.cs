@@ -2,6 +2,7 @@
 using GestiondesSalles.Data;
 using GestiondesSalles.Dto.FloorDto;
 using GestiondesSalles.modals;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,13 +26,12 @@ namespace GestiondesSalles.Controllers
             {
                 Nom = createFloor.Nom,
             };
-
             _context.Floor.Add(floor);
             await _context.SaveChangesAsync();
             return Ok(floor);
         }
 
-        [HttpGet]
+        [HttpGet, Authorize(Roles ="Admin")]
         public ActionResult<IEnumerable<Floor>> Get() => _context.Floor;
 
         [HttpGet("Id/{id:Guid}")]
@@ -40,7 +40,6 @@ namespace GestiondesSalles.Controllers
             Floor? floor = await _context.Floor.Where(c => c.Id == id).FirstOrDefaultAsync();
             if (floor == null)
                 return NotFound("Floor nor found");
-
             return Ok(floor);
         }
 
