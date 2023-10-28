@@ -1,6 +1,7 @@
 using GestiondesSalles.Dto.RoomDto;
 using GestiondesSalles.modals;
 using GestiondesSalles.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestiondesSalles.Controllers
@@ -14,7 +15,7 @@ namespace GestiondesSalles.Controllers
         {
             _roomRepository = roomRepository;
         }
-        [HttpPost("Create")]
+        [HttpPost("Create"),Authorize(Roles ="Admin")]
         public ActionResult<Room> Create(CreateRoomDto roomDto)
          => Ok(_roomRepository.Create(roomDto));
 
@@ -22,13 +23,13 @@ namespace GestiondesSalles.Controllers
         public ActionResult<IEnumerable<ResponseRoomDto>> GetAll()
         => Ok(_roomRepository.GetAll());
 
-        [HttpDelete("Delete/{id:Guid}")]
+        [HttpDelete("Delete/{id:Guid}"),Authorize(Roles ="Admin")]
         public ActionResult Delete(Guid id)
         {
             _roomRepository.Delete(id);
             return Ok();
         }
-        [HttpPut("Update/{id:Guid}")]
+        [HttpPut("Update/{id:Guid}"), Authorize(Roles ="Admin")]
         public ActionResult<ResponseRoomDto> Update(Guid id, UpdateRoomDto updateRoomDto) => Ok(_roomRepository.Update(id, updateRoomDto));
 
         [HttpGet("SearchRoomByFloor/{floorId:Guid}")]
@@ -44,16 +45,7 @@ namespace GestiondesSalles.Controllers
 
         public ActionResult<IEnumerable<ResponseRoomDto>> GetFreeRooms() =>Ok(_roomRepository.GetFreeRooms());
 
-        void Imane(){
-            Console.WriteLine("imane");
-            }
-
        
 
-        void Othmane()
-        {
-            Console.WriteLine("Othmane");
-
-        }
     }
 }

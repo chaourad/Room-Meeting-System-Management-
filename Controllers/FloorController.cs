@@ -1,7 +1,10 @@
 
+using System.Net;
 using GestiondesSalles.Data;
 using GestiondesSalles.Dto.FloorDto;
+using GestiondesSalles.ExceptionHandlerMidls.FloorException;
 using GestiondesSalles.modals;
+using GestiondesSalles.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +22,8 @@ namespace GestiondesSalles.Controllers
             _context = context;
         }
 
-        [HttpPost]
+
+        [HttpPost, Authorize(Roles ="Admin")]
         public async Task<ActionResult<Floor>> Create(CreateFloorDto createFloor)
         {
             var floor = new Floor
@@ -31,7 +35,7 @@ namespace GestiondesSalles.Controllers
             return Ok(floor);
         }
 
-        [HttpGet, Authorize(Roles ="Admin")]
+        [HttpGet]
         public ActionResult<IEnumerable<Floor>> Get() => _context.Floor;
 
         [HttpGet("Id/{id:Guid}")]
@@ -42,8 +46,21 @@ namespace GestiondesSalles.Controllers
                 return NotFound("Floor nor found");
             return Ok(floor);
         }
+       
+        [HttpDelete("Delete/{id:Guid}"),Authorize(Roles ="Admin")]
+        public void Delete(Guid id)
+        {
+            Floor? floor = _context.Floor.Find(id);
+            if(floor is null)
+                throw new FloorNotFoundException(ErrorMessages.FLoorNotFound,(int) HttpStatusCode.NotFound);
+            
+            _context.Floor.Remove(floor);
+           int res = _context.SaveChanges();
+             if (res == 0)
+                throw new FloorDeleteException(ErrorMessages.RoomDeleteException, (int)HttpStatusCode.BadRequest);
+        }
 
-        [HttpPut("Update/{id:Guid}")]
+        [HttpPut("Update/{id:Guid}"), Authorize(Roles ="Admin")]
         public async Task<ActionResult<Floor>> Update(Guid id, UpdateFloorDto floorDto)
         {
             if (floorDto == null)
