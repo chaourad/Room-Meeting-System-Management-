@@ -84,7 +84,13 @@ namespace GestiondesSalles.Repository
 
         public IEnumerable<ResponseEquipementDto> GetEquipementByRommId(Guid roomId)
         {
-            return _context.Equipements.Where(c => c.RommId == roomId).Select(s => _mapper.Map<Equipement,ResponseEquipementDto>(s));
+            var room = _context.Equipements.Find(roomId);
+            if(room is null){
+                throw new RoomNotFoundException(ErrorMessages.RoomNotFound , (int) HttpStatusCode.NotFound);
+            }
+            return _context.Equipements
+            .Where(e => e.RommId == roomId)
+            .Select(e => _mapper.Map<Equipement, ResponseEquipementDto>(e));
              
         }
 
