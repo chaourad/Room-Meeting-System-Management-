@@ -25,6 +25,11 @@ namespace GestiondesSalles.Controllers
         {
             if (request is null)
                 throw new UserNotFoundException(ErrorMessages.UserNotFoundException, (int)HttpStatusCode.NotFound);
+
+            //if username already exist  
+            User? u = _context.Users.Where(u => u.Username==request.Username).FirstOrDefault();
+            if(u != null)
+            throw new UserAlreadyExistException(ErrorMessages.UserAlreadyExistException,(int)HttpStatusCode.BadRequest); 
             CreatePAsswordHAsh(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User userr = new()
             {

@@ -11,6 +11,8 @@ namespace GestiondesSalles.Utils
         public static string EquipementDeleteException => "Error Happened while deleting please try again later!";
         public static string UserNotFoundException => " User Not Found";
         public static string PasswordNotFoundExcpetion => " Password is not correct please try again later!";
+        public static string UserAlreadyExistException => " Username is already exist  please try again later!";
+
 
 
     }
