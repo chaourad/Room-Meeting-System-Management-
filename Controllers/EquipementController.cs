@@ -1,6 +1,7 @@
 using GestiondesSalles.Dto.EquipementDto;
 using GestiondesSalles.IRepository;
 using GestiondesSalles.modals;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestiondesSalles.Controllers
@@ -15,11 +16,11 @@ namespace GestiondesSalles.Controllers
             _repository = repository;
         }
 
-        [HttpPost("Create")]
+        [HttpPost("Create"),Authorize(Roles ="Admin")]
         public ActionResult<Equipement> Create(CreateEquipementDto equipementDto)
          => Ok(_repository.CreateA(equipementDto));
 
-        [HttpDelete("Delete/{id:Guid}")]
+        [HttpDelete("Delete/{id:Guid}"),Authorize(Roles ="Admin")]
         public ActionResult Delete(Guid id)
         {
             _repository.Delete(id);
@@ -34,7 +35,7 @@ namespace GestiondesSalles.Controllers
         public ActionResult<ResponseEquipementDto> GetById(Guid id)
         =>Ok(_repository.GetById(id));
 
-        [HttpPut("Update/{id:Guid}")]
+        [HttpPut("Update/{id:Guid}"), Authorize(Roles ="Admin")]
         public ActionResult<ResponseEquipementDto> Update(UpdateEquipementDto updateEquipementDto, Guid id)
         => Ok(_repository.Update(updateEquipementDto,id));
 
