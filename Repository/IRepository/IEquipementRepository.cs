@@ -11,6 +11,8 @@ namespace GestiondesSalles.IRepository
        ResponseEquipementDto GetById(Guid id);
       ResponseEquipementDto Update(UpdateEquipementDto updateEquipementDto, Guid id);
 
+      IEnumerable<ResponseEquipementDto> GetEquipementByRommId(Guid roomId);
+      
 
     }
 }
