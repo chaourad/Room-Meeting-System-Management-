@@ -2,6 +2,7 @@ using AutoMapper;
 using GestiondesSalles.Dto.EquipementDto;
 using GestiondesSalles.Dto.FloorDto;
 using GestiondesSalles.Dto.RoomDto;
+using GestiondesSalles.Dto.UserDto;
 using GestiondesSalles.modals;
 
 namespace GestiondesSalles.MapperProfile
@@ -14,6 +15,7 @@ namespace GestiondesSalles.MapperProfile
             CreateMap<Room,ResponseRoomDto>();
             CreateMap<CreateEquipementDto , Equipement>();
             CreateMap<Equipement, ResponseEquipementDto>();
+            CreateMap<UserDto,User>();
             
         }
     }

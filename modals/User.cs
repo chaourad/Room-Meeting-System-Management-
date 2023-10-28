@@ -11,9 +11,10 @@ namespace GestiondesSalles.modals
     {
         [Key]
         public Guid Id { get; set; }
-        public string  username { get; set; }= string.Empty;
-        public string password { get; set; }= string.Empty;
-        public string  role { get; set; }= string.Empty;
+        public string  Username { get; set; }= string.Empty;
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public string  Role { get; set; }= string.Empty;
         [JsonIgnore]
         public List<Reservation> Reservations { get; set; } = new();
     }

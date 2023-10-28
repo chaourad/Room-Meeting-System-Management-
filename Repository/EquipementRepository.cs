@@ -2,11 +2,14 @@ using System.Net;
 using AutoMapper;
 using GestiondesSalles.Data;
 using GestiondesSalles.Dto.EquipementDto;
+using GestiondesSalles.Dto.RoomDto;
 using GestiondesSalles.ExceptionHandlerMidls.EquipementException;
 using GestiondesSalles.ExceptionHandlerMidls.FloorException;
 using GestiondesSalles.ExceptionHandlerMidls.RoomException;
+using GestiondesSalles.Filter;
 using GestiondesSalles.IRepository;
 using GestiondesSalles.modals;
+using GestiondesSalles.Status;
 using GestiondesSalles.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -84,15 +87,15 @@ namespace GestiondesSalles.Repository
 
         public IEnumerable<ResponseEquipementDto> GetEquipementByRommId(Guid roomId)
         {
-            var room = _context.Equipements.Find(roomId);
+            var room = _context.Equipements.Where(s=>s.RommId== roomId).First();
             if(room is null){
                 throw new RoomNotFoundException(ErrorMessages.RoomNotFound , (int) HttpStatusCode.NotFound);
             }
             return _context.Equipements
             .Where(e => e.RommId == roomId)
             .Select(e => _mapper.Map<Equipement, ResponseEquipementDto>(e));
-             
         }
 
+       
     }
 }

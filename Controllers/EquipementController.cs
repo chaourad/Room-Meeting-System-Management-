@@ -38,8 +38,12 @@ namespace GestiondesSalles.Controllers
         public ActionResult<ResponseEquipementDto> Update(UpdateEquipementDto updateEquipementDto, Guid id)
         => Ok(_repository.Update(updateEquipementDto,id));
 
-         [HttpPut("Equipemtbyroom/{id:Guid}")]
+         [HttpGet("Equipemtbyroom/{id:Guid}")]
         public ActionResult<ResponseEquipementDto> EquipemntByRoom(Guid id)
         => Ok(_repository.GetEquipementByRommId(id));    
+         
+
+
+
     }
 }
