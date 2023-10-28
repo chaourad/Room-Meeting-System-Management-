@@ -232,3 +232,7 @@ C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\obj\Deb
 C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\obj\Debug\net7.0\GestiondesSalles.pdb
 C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\obj\Debug\net7.0\GestiondesSalles.genruntimeconfig.cache
 C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\obj\Debug\net7.0\ref\GestiondesSalles.dll
+C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\bin\Debug\net7.0\Scrutor.dll
+C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.dll
+C:\Users\chaou\Desktop\Gestion Des Salle\Room-Meeting-System-Management-\bin\Debug\net7.0\Swashbuckle.AspNetCore.Filters.Abstractions.dll
