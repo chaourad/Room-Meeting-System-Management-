@@ -61,6 +61,9 @@ namespace GestiondesSalles.Repository
                 throw new EquipementNotFoundException(ErrorMessages.EquipementNotFound, (int)HttpStatusCode.NotFound);
             return _mapper.Map<Equipement, ResponseEquipementDto>(equipement);
         }
+
+
+
         public ResponseEquipementDto Update(UpdateEquipementDto updateEquipementDto, Guid id)
         {
             if (updateEquipementDto is null)
@@ -69,7 +72,7 @@ namespace GestiondesSalles.Repository
             Equipement? equipement = _context.Equipements.Find(id);
             if (equipement is null)
                 throw new EquipementNotFoundException(ErrorMessages.EquipementNotFound, (int)HttpStatusCode.NotFound);
-            
+
             equipement.Nom = updateEquipementDto.Nom;
             equipement.Image = updateEquipementDto.Image;
             equipement.Quantity = updateEquipementDto.Quantity;
@@ -77,7 +80,13 @@ namespace GestiondesSalles.Repository
             _context.Equipements.Update(equipement);
             _context.SaveChanges();
             return _mapper.Map<Equipement, ResponseEquipementDto>(equipement);
-            }
+        }
+
+        public IEnumerable<ResponseEquipementDto> GetEquipementByRommId(Guid roomId)
+        {
+            return _context.Equipements.Where(c => c.RommId == roomId).Select(s => _mapper.Map<Equipement,ResponseEquipementDto>(s));
+             
+        }
 
     }
 }
