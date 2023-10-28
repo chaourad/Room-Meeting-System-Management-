@@ -15,15 +15,17 @@ namespace GestiondesSalles.Data
             modelBuilder.Entity<Room>()
             .HasOne(f => f.Floor)
             .WithMany(r => r.Rooms);
-            modelBuilder.Entity<Room>()
-            .HasMany(e => e.Equipements)
-            .WithOne(r => r.Room);
+         
             modelBuilder.Entity<Reservation>()
             .HasOne(r => r.Room)
             .WithMany(rs => rs.Reservations);
             modelBuilder.Entity<User>()
             .HasMany(r => r.Reservations)
             .WithMany(u => u.Users);
+            
+            modelBuilder.Entity<Equipement>()
+            .HasOne(r => r.Room)
+            .WithMany(e => e.Equipements);
 
         }
         public DbSet<Floor> Floor { get; set; }

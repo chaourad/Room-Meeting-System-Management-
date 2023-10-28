@@ -34,7 +34,7 @@ namespace GestiondesSalles.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Floor>> Get() => _context.Floor;
 
-        [HttpGet("id/{id:Guid}")]
+        [HttpGet("Id/{id:Guid}")]
         public async Task<ActionResult<Floor>> GetById(Guid id)
         {
             Floor? floor = await _context.Floor.Where(c => c.Id == id).FirstOrDefaultAsync();
@@ -44,7 +44,7 @@ namespace GestiondesSalles.Controllers
             return Ok(floor);
         }
 
-        [HttpPut("update/{id:Guid}")]
+        [HttpPut("Update/{id:Guid}")]
         public async Task<ActionResult<Floor>> Update(Guid id, UpdateFloorDto floorDto)
         {
             if (floorDto == null)
@@ -60,7 +60,7 @@ namespace GestiondesSalles.Controllers
 
             return Ok(floor);
         }
-        [HttpGet("search/{nom}")]
+        [HttpGet("Search/{nom}")]
         public ActionResult<Floor> Get(string nom)
         {
             Floor? floor = _context.Floor.SingleOrDefault(f => f.Nom == nom);

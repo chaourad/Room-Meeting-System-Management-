@@ -48,9 +48,7 @@ namespace GestiondesSalles.Controllers
             Console.WriteLine("imane");
             }
 
-        public ActionResult<IEnumerable<ResponseRoomDto>> GetFreeRooms()
-         => Ok(_roomRepository.GetFreeRooms());
-
+       
 
         void Othmane()
         {
