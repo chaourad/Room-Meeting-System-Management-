@@ -33,6 +33,7 @@ namespace GestiondesSalles.Repository
             var newRoom = _mapper.Map<CreateRoomDto, Room>(createRoom);
             _context.Rooms.Add(newRoom);
             _context.SaveChanges();
+            
             return newRoom;
         }
 

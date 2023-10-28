@@ -22,6 +22,7 @@ namespace GestiondesSalles.modals
         public Floor? Floor { get; set; }
         [JsonIgnore]
         public List<Equipement>? Equipements { get; set; }
+        
         [JsonIgnore]
         public List<Reservation>? Reservations { get; set; }
     }

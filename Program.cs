@@ -1,5 +1,6 @@
 using GestiondesSalles.Data;
 using GestiondesSalles.ExceptionHandlerMidls;
+using GestiondesSalles.IRepository;
 using GestiondesSalles.Repository;
 using GestiondesSalles.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IRoomRepository,RoomRepository>();
+builder.Services.AddScoped<IEquipementRepository,EquipementRepository>();
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddSingleton<ExceptionMidl>();
 
@@ -30,7 +33,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseCors("AllowOrigin");
 app.UseAuthorization();
 
 app.UseMiddleware<ExceptionMidl>();

@@ -1,5 +1,7 @@
 
 using System.Threading.Tasks;
+using GestiondesSalles.ExceptionHandlerMidls.CustomException;
+using GestiondesSalles.ExceptionHandlerMidls.EquipementException;
 using GestiondesSalles.ExceptionHandlerMidls.FloorException;
 using GestiondesSalles.ExceptionHandlerMidls.RoomException;
 
@@ -21,6 +23,11 @@ namespace GestiondesSalles.ExceptionHandlerMidls
                 await WriteErrorMessage(e.Message,e.Status,context);
             }
             catch(RoomDeleteException e){
+                await WriteErrorMessage(e.Message,e.Status,context);
+            }
+            catch(EquipementNotFoundException e){
+                await WriteErrorMessage(e.Message, e.Status , context);
+            }catch(EquipementDeleteException e){
                 await WriteErrorMessage(e.Message,e.Status,context);
             }
             catch (Exception e)
