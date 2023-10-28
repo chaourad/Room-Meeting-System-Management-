@@ -1,5 +1,7 @@
 
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using GestiondesSalles.Data;
 using GestiondesSalles.Dto.UserDto;
@@ -7,6 +9,8 @@ using GestiondesSalles.ExceptionHandlerMidls.UserException;
 using GestiondesSalles.modals;
 using GestiondesSalles.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 
 namespace GestiondesSalles.Controllers
 {
@@ -15,9 +19,13 @@ namespace GestiondesSalles.Controllers
     public class AuthController : ControllerBase
     {
         public readonly AppDbContext _context;
-        public AuthController(AppDbContext context)
+        public readonly IConfiguration _configuration;
+
+        public AuthController(AppDbContext context, IConfiguration configuration)
         {
             this._context = context;
+            _configuration = configuration;
+
         }
 
         [HttpPost("Register")]
@@ -27,9 +35,9 @@ namespace GestiondesSalles.Controllers
                 throw new UserNotFoundException(ErrorMessages.UserNotFoundException, (int)HttpStatusCode.NotFound);
 
             //if username already exist  
-            User? u = _context.Users.Where(u => u.Username==request.Username).FirstOrDefault();
-            if(u != null)
-            throw new UserAlreadyExistException(ErrorMessages.UserAlreadyExistException,(int)HttpStatusCode.BadRequest); 
+            User? u = _context.Users.Where(u => u.Username == request.Username).FirstOrDefault();
+            if (u != null)
+                throw new UserAlreadyExistException(ErrorMessages.UserAlreadyExistException, (int)HttpStatusCode.BadRequest);
             CreatePAsswordHAsh(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User userr = new()
             {
@@ -37,7 +45,6 @@ namespace GestiondesSalles.Controllers
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
                 Role = "USER"
-
             };
             _context.Users.Add(userr);
             await _context.SaveChangesAsync();
@@ -57,10 +64,26 @@ namespace GestiondesSalles.Controllers
             {
                 throw new PasswordNotFoundExcpetion(ErrorMessages.PasswordNotFoundExcpetion, (int)HttpStatusCode.NotFound);
             }
-            return Ok("Login successful");
+            string token = CreateToken(user);
+            return Ok(token);
         }
 
-
+        private string CreateToken(User user)
+        {
+            List<Claim> claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.Username)
+            };
+            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var token = new JwtSecurityToken(
+                claims: claims,
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: cred
+            );
+            var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+            return jwt;
+        }
         private bool VerifyPasswordHAsh(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
