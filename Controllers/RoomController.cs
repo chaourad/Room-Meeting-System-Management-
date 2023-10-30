@@ -15,7 +15,7 @@ namespace GestiondesSalles.Controllers
         {
             _roomRepository = roomRepository;
         }
-        [HttpPost("Create"),Authorize(Roles ="Admin")]
+        [HttpPost("Create")]
         public ActionResult<Room> Create(CreateRoomDto roomDto)
          => Ok(_roomRepository.Create(roomDto));
 
@@ -23,13 +23,13 @@ namespace GestiondesSalles.Controllers
         public ActionResult<IEnumerable<ResponseRoomDto>> GetAll()
         => Ok(_roomRepository.GetAll());
 
-        [HttpDelete("Delete/{id:Guid}"),Authorize(Roles ="Admin")]
+        [HttpDelete("Delete/{id:Guid}")]
         public ActionResult Delete(Guid id)
         {
             _roomRepository.Delete(id);
             return Ok();
         }
-        [HttpPut("Update/{id:Guid}"), Authorize(Roles ="Admin")]
+        [HttpPut("Update/{id:Guid}")]
         public ActionResult<ResponseRoomDto> Update(Guid id, UpdateRoomDto updateRoomDto) => Ok(_roomRepository.Update(id, updateRoomDto));
 
         [HttpGet("SearchRoomByFloor/{floorId:Guid}")]

@@ -1,6 +1,7 @@
 
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using GestiondesSalles.Data;
@@ -10,8 +11,6 @@ using GestiondesSalles.modals;
 using GestiondesSalles.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
-
 namespace GestiondesSalles.Controllers
 {
     [ApiController]
@@ -29,7 +28,7 @@ namespace GestiondesSalles.Controllers
         }
 
         [HttpPost("Register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        public async Task<ActionResult<User>> Register(RegisterDto request)
         {
             if (request is null)
                 throw new UserNotFoundException(ErrorMessages.UserNotFoundException, (int)HttpStatusCode.NotFound);
@@ -41,6 +40,8 @@ namespace GestiondesSalles.Controllers
             CreatePAsswordHAsh(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
             User userr = new()
             {
+                Nom = request.Nom,
+                Prenom = request.Prenom,
                 Username = request.Username,
                 PasswordHash = passwordHash,
                 PasswordSalt = passwordSalt,
@@ -48,6 +49,8 @@ namespace GestiondesSalles.Controllers
             };
             _context.Users.Add(userr);
             await _context.SaveChangesAsync();
+            SendWelcomeEmail(request.Username, request.Password);
+
 
             return Ok(userr);
         }
@@ -72,8 +75,9 @@ namespace GestiondesSalles.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim("nom", user.Nom),
+                new Claim("username", user.Username),
+                new Claim("role", user.Role)
 
             };
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value));
@@ -103,5 +107,26 @@ namespace GestiondesSalles.Controllers
 
             }
         }
+          private void SendWelcomeEmail(string userEmail, string password)
+    {
+       var smtpClient = new SmtpClient
+{
+    Host = _configuration.GetSection("Smtp:Host").Value, // Utilisez .Value pour obtenir la valeur en chaîne
+    Port = int.Parse(_configuration.GetSection("Smtp:Port").Value),
+    Credentials = new NetworkCredential(_configuration.GetSection("Smtp:Username").Value, _configuration.GetSection("Smtp:Password").Value), // Accédez aux valeurs de la même manière
+    EnableSsl = bool.Parse(_configuration.GetSection("Smtp:EnableSsl").Value)
+};
+
+        var mailMessage = new MailMessage
+        {
+            From = new MailAddress(_configuration.GetSection("Smtp:Username").Value),
+            Subject = "Bienvenue sur notre site",
+            Body = $"Bienvenue sur notre site. Votre e-mail : {userEmail}, Votre mot de passe : {password}"
+        };
+
+        mailMessage.To.Add(userEmail);
+
+        smtpClient.Send(mailMessage);
+    }
     }
 }
