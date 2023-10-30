@@ -23,7 +23,7 @@ namespace GestiondesSalles.Controllers
         }
 
 
-        [HttpPost, Authorize(Roles ="Admin")]
+        [HttpPost]
         public async Task<ActionResult<Floor>> Create(CreateFloorDto createFloor)
         {
             var floor = new Floor
@@ -47,7 +47,7 @@ namespace GestiondesSalles.Controllers
             return Ok(floor);
         }
        
-        [HttpDelete("Delete/{id:Guid}"),Authorize(Roles ="Admin")]
+        [HttpDelete("Delete/{id:Guid}")]
         public void Delete(Guid id)
         {
             Floor? floor = _context.Floor.Find(id);
@@ -60,7 +60,7 @@ namespace GestiondesSalles.Controllers
                 throw new FloorDeleteException(ErrorMessages.RoomDeleteException, (int)HttpStatusCode.BadRequest);
         }
 
-        [HttpPut("Update/{id:Guid}"), Authorize(Roles ="Admin")]
+        [HttpPut("Update/{id:Guid}")]
         public async Task<ActionResult<Floor>> Update(Guid id, UpdateFloorDto floorDto)
         {
             if (floorDto == null)

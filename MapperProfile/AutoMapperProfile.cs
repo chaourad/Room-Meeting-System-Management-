@@ -16,6 +16,7 @@ namespace GestiondesSalles.MapperProfile
             CreateMap<CreateEquipementDto , Equipement>();
             CreateMap<Equipement, ResponseEquipementDto>();
             CreateMap<UserDto,User>();
+            CreateMap<User , ResponseUserDto>();
             
         }
     }

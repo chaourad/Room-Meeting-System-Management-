@@ -8,6 +8,7 @@ namespace GestiondesSalles.Utils
         public static string RommDtoNotFound => "Room Dto not Found";
         public static string EquipementNotFound => "Equipement Not found";
         public static string FloorDeleteException => "Error Happened while deleting please try again later!";
+        public static string UserDeleteException => "Error Happened while deleting please try again later!";
 
         public static string RoomDeleteException => "Error Happened while deleting please try again later!";
         public static string EquipementDeleteException => "Error Happened while deleting please try again later!";
